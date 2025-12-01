@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>🎓 Kết quả kiểm tra</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+  <div class="max-w-6xl mx-auto p-6 space-y-6">
+    <!-- Header -->
+    <div class="text-center">
+      <h1 class="text-3xl font-bold text-gray-800">🎓 Kết quả kiểm tra</h1>
+    </div>
+
+    <!-- Hàng 1: Ảnh (trái) + Card Kiểm tra và JSON (phải) -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- Ảnh kết quả -->
+      <div class="bg-white shadow rounded-lg p-4">
+        <h2 class="text-lg font-semibold text-gray-700 mb-3">📷 Ảnh đã xử lý</h2>
+        <img src="{{ img_path }}" alt="Ảnh kết quả" class="rounded border border-gray-300 w-full max-w-[800px]">
+      </div>
+
+      <!-- Card tổng hợp: Kiểm tra + JSON -->
+      <div class="bg-white shadow rounded-lg p-4 lg:col-span-2">
+        <!-- Kiểm tra -->
+        <div>
+          <h2 class="text-lg font-semibold text-gray-700 mb-3">📋 KIỂM TRA</h2>
+
+          {# ---- TÍNH TOTAL FAIL (tay, cười, giày-cả-hai, chân, lông mày–tóc) ---- #}
+          {% set total_fail = 0 %}
+          {% if results.get('arms') != 'pass' %}{% set total_fail = total_fail + 1 %}{% endif %}
+          {% if results.get('smile') != 'smile' %}{% set total_fail = total_fail + 1 %}{% endif %}
+          {% set shoes_all = results.get('shoes', 'fail') %}
+          {% if shoes_all != 'pass' %}{% set total_fail = total_fail + 1 %}{% endif %}
+          {% if results.get('legs','pass') != 'pass' %}{% set total_fail = total_fail + 1 %}{% endif %}
+          {% if results.get('eyebrow_hair','pass') != 'pass' %}{% set total_fail = total_fail + 1 %}{% endif %}
+          {% if results.get('scollar','pass') != 'pass' %}{% set total_fail = total_fail + 1 %}{% endif %}
+          <p class="text-red-700 font-bold text-lg mb-4">Total Fail: {{ total_fail }}</p>
+
+          <div class="overflow-x-auto">
+            <table class="min-w-full text-sm">
+              <thead>
+                <tr class="bg-gray-50 text-gray-700">
+                  <th class="px-3 py-2 text-left font-medium">Tiêu chí</th>
+                  <th class="px-3 py-2 text-left font-medium">Kết quả</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-100">
+                <!-- Tay (cả hai) -->
+                <tr>
+                  <td class="px-3 py-2 text-gray-800">Tay duỗi thẳng</td>
+                  <td class="px-3 py-2">
+                    <span class="
+                      inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold
+                      {% if results.get('arms') == 'pass' %}
+                        bg-green-100 text-green-800
+                      {% else %}
+                        bg-red-100 text-red-800
+                      {% endif %}
+                    ">{{ results.get('arms') }}</span>
+                  </td>
+                </tr>
+
+                <!-- Nụ cười -->
+                <tr>
+                  <td class="px-3 py-2 text-gray-800">Nụ cười</td>
+                  <td class="px-3 py-2">
+                    <span class="
+                      inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold
+                      {% if results.get('smile') == 'smile' %}
+                        bg-green-100 text-green-800
+                      {% else %}
+                        bg-red-100 text-red-800
+                      {% endif %}
+                    ">{{ results.get('smile') }}</span>
+                  </td>
+                </tr>
+
+                <!-- Lông mày–tóc -->
+                 <tr>
+                  <td class="px-3 py-2 text-gray-800">Lông mày – tóc</td>
+                  <td class="px-3 py-2">
+                    <span class="
+                      inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold
+                      {% if results.get('eyebrow_hair','pass') == 'pass' %}
+                        bg-green-100 text-green-800
+                      {% else %}
+                        bg-red-100 text-red-800
+                      {% endif %}
+                    ">{{ results.get('eyebrow_hair','pass') }}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-3 py-2 text-gray-800">Tai</td>
+                  <td class="px-3 py-2">
+                    <span class="
+                      inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold
+                      {% if results.get('ear') == 'pass' %}
+                        bg-green-100 text-green-800
+                      {% else %}
+                        bg-red-100 text-red-800
+                      {% endif %}
+                    ">{{ results.get('ear') }}</span>
+                  </td>
+                </tr>
+                <!-- Giày (cả hai) -->
+                <tr>
+                  <td class="px-3 py-2 text-gray-800">Giày</td>
+                  <td class="px-3 py-2">
+                    <span class="
+                      inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold
+                      {% if shoes_all == 'pass' %}
+                        bg-green-100 text-green-800
+                      {% else %}
+                        bg-red-100 text-red-800
+                      {% endif %}
+                    ">{{ shoes_all }}</span>
+                  </td>
+                </tr>
+
+                <!-- Chân -->
+                <tr>
+                  <td class="px-3 py-2 text-gray-800">Chân</td>
+                  <td class="px-3 py-2">
+                    <span class="
+                      inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold
+                      {% if results.get('legs','pass') == 'pass' %}
+                        bg-green-100 text-green-800
+                      {% else %}
+                        bg-red-100 text-red-800
+                      {% endif %}
+                    ">{{ results.get('legs','pass') }}</span>
+                  </td>
+                </tr>
+                                <tr>
+                  <td class="px-3 py-2 text-gray-800">Cổ áo</td>
+                  <td class="px-3 py-2">
+                    <span class="
+                      inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold
+                      {% if results.get('scollar') == 'pass' %}
+                        bg-green-100 text-green-800
+                      {% else %}
+                        bg-red-100 text-red-800
+                      {% endif %}
+                    ">{{ results.get('scollar') }}</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+
+        <!-- JSON -->
+        <div class="mt-6 border-t border-gray-200 pt-6">
+          <h2 class="text-lg font-semibold text-gray-700 mb-3">📊 Kết quả JSON</h2>
+          <pre class="bg-gray-900 text-gray-100 p-3 rounded text-xs overflow-x-auto">{{ results | tojson(indent=2) }}</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

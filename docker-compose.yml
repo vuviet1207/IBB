@@ -1,0 +1,9 @@
+version: "3.9"
+
+services:
+  web:
+    image: vuviet1207/uniform-app:1.2   # ĐỔI thành tên bạn đã push
+    container_name: uniform_app
+    ports:
+      - "8000:8000"  # ngoài:trong, tùy port trong app.py
+    restart: unless-stopped

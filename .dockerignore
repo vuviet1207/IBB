@@ -1,0 +1,11 @@
+# chặn tất cả
+*
+
+# chỉ giữ lại những thứ cần
+!models/
+!static/
+!templates/
+!app.py
+!bk.py
+!requirements.txt
+!Dockerfile
